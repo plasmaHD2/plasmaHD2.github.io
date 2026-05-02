@@ -1,1 +1,284 @@
-<p>Hello World</p>
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <body>
+        <!--SIDEBAR-->
+        <div id="sidebar">
+            <div id = "headerbox">
+                <h1 id="usernamedisplay"></h1>
+            </div>
+            <div>
+                <div>
+                    <h2>Bio:</h1>
+                    <p id="Bio"></p>
+                </div>
+            </div>
+            
+            <a class="LinkToGithub"><img id = "github-profile" src="https://github.com"></a>
+
+            <div>
+                <div>
+                    <h2>Interests:</h2>
+                    <ul>
+                        <li>Coding</li>
+                        <li>Math</li>
+                        <li>Video Games</li>
+                    </ul>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        <!--PAGE-->
+        <div id = "page">
+            <div>
+                <div id = "spacer"></div>
+                <div>
+                    <h1>Coding Experience:</h1>
+                </div>
+                <div id = "spacer"></div>
+                <div class="Slideshow">
+                    <button id="Backwards" class="scrollbtn"><</button>
+                    <img id="imageslideBefore">
+                    <figure>
+                        <img id="imageslide">
+                        <figcaption id="imagedescription"></figcaption>
+                    </figure>
+                    <img id="imageslideAfter">
+                    <button id="Forwards" class="scrollbtn">></button>
+                </div>
+            </div>
+            <div id = "spacer"></div>
+            <div>
+                <h1>Github Repos:</h1>
+            </div>
+            <div id = "spacer"></div>
+            <div id = "Repo"></div>
+        </div>
+    <script>
+
+    async function getGithubProfile(){
+        const username = "plasmaHD2"
+        const apiUrl = `https://api.github.com/users/${username}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            document.getElementById('Bio').textContent = data.bio || "Nothing yet";
+            document.getElementById('github-profile').src = data.avatar_url;
+            document.getElementById('github-profile').alt = username;
+            const nodes = document.getElementsByClassName('LinkToGithub');
+            for (let i = 0; i < nodes.length; i++) {
+                nodes[i].href = `https://github.com/${username}`;
+            }
+            document.getElementById('usernamedisplay').textContent = username;
+            const repoResponse = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=3`);
+            const repos = await repoResponse.json();
+            const repoContainer = document.getElementById('Repo');
+            repoContainer.innerHTML = repos.map(repo => `
+            <li>
+                <div>
+                    <a href="${repo.html_url}"><b>${repo.name}</b></a>
+                </div>
+            </li>
+            `).join('') || "<p>Nothing yet :(</p>";
+        }    
+        catch (error) {
+            console.error('Error fetching GitHub profile:', error);
+        }
+    }
+    getGithubProfile();
+
+    </script>
+
+    <script>
+        const classes = [
+            {
+                image: "images/Roblox.png",
+                description: "Immersive 3D world building, Luau scripting, and user experience design within the Roblox Studio engine."
+            },
+            {
+                image: "images/python-logo-only.png",
+                description: "Python development focused on computer vision (OpenCV), web automation (PyWebScript), and game mechanics (Pygame)."
+            },
+            {
+                image: "images/code.png",
+                description: "Full-stack development experience, including relational database design and robust JavaScript backend services."
+            },
+            {
+                image: "images/Ccoding.png",
+                description: "High-performance algorithm design, specializing in optimizing code complexity and Big O notation efficiency."
+            }
+        ]
+    </script>
+
+    <script src="javascript.js"></script>
+
+    <style src = "styles.css"></style>
+    <style>
+        body {
+            margin: 8px;
+            background-color: rgb(240,255,255);
+            width: 100dvw;
+            height: 100vh;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            display: flex;
+        }
+        p {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        h1 {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        h2 {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        ul {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        a {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        figcaption {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+        img {
+            border-radius: 25%
+        }
+        #github-profile {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 8px;
+        }
+        div#sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            background-color: rgb(209, 238, 238);
+            border-radius: 20px;
+            max-height: calc(100% - 20px);
+            overflow-y: auto;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgb(65, 80, 80);
+            border-radius: 5px;
+            
+        }
+
+        div#sidebar div#headerbox {
+            height: fit-content;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        div#sidebar div~div {
+            background-color: rgb(240,255,255);
+            margin-bottom: 10px;
+            width: calc(100% - 20px);
+            border-radius: 10px;
+            height: auto;
+        }
+        div#sidebar div div {
+            margin: 10px;
+        }
+
+        div#page {
+            background-color: rgb(226, 248, 248);
+            width: 100;
+            height: calc(100% - 20px);
+            border-radius: 20px;
+            margin-left: 10px;
+            margin-right: 18px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        div#page div {
+            height: fit-content;
+            padding-top: 10px;
+        }
+
+        div#page div#spacer {
+            height: 10px;
+        }
+
+        div#page div h1 {
+            margin: auto;
+            text-align: center;
+        }
+
+        div.Slideshow {
+            margin: auto;
+            width: fit-content;
+        }
+
+        div.Slideshow button.scrollbtn {
+            background-color: rgb(209, 240, 240);
+            border-width: 0px;
+            width: 30px;
+            height: 60px;
+            border-radius: 20px;
+        }
+
+        div.Slideshow img#imageslideBefore, #imageslideAfter {
+            background-color: rgb(174, 226, 226);
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        div.Slideshow figure {
+            background-color: rgb(150, 211, 211);
+            border-radius: 20px;
+        }
+
+        div.Slideshow figure img#imageslide {
+            background-color: rgb(226, 248, 248);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        div#Repo {
+            overflow-y: hidden;
+            overflow-x: scroll;
+            display: flex;
+            flex-grow: 1;
+        }
+        div#Repo li {
+            display: inline-block;
+            background-color: rgb(150, 211, 211);
+            border-radius: 10px;
+            height: 50px;
+            width: 100%;
+            margin: 5px;
+            text-align: center;
+        }
+        div#Repo li div {
+           margin: auto;
+        }
+        div#Repo li div a {
+            color: rgb(9, 78, 78);
+        }
+        div#Repo p {
+            text-align: center;
+            margin: auto;
+        }
+    </style>
+
+    </body>
+</html>
